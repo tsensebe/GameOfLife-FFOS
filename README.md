@@ -1,0 +1,1 @@
+## Game of life for firefox OS
