@@ -1,0 +1,10 @@
+{
+  "name": "GameOfLife",
+  "description": "Game of life on Firefox OS",
+  "version": "1.0",
+  "launch_path": "/index.html",
+  "developer": {
+    "name": "Thomas Sensebé"
+  },
+  "permissions": {}
+}

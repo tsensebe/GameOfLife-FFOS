@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+  <head>
+    <meta charset="utf-8">
+    <title>Game Of FirefoxOS Life</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    
+    <link href="css/ratchet.css" rel="stylesheet">
+    <script src="js/ratchet.js"></script>
+  </head>
+  <body ng-controller="GolCtrl">
+
+
+
+    <div class="content">
+
+	    
+
+	    <canvas id="myCanvas"></canvas>
+    </div>
+
+    <nav class="bar bar-tab">
+
+      <a class="tab-item" href="#">
+	    <span class="icon icon-refresh"></span>
+	    <span class="tab-label">Reload</span>
+	  </a>
+
+	  <a class="tab-item" href="#myModalexample">
+	    <span class="icon icon-gear"></span>
+	    <span class="tab-label">Settings</span>
+	  </a>
+	</nav>
+
+
+	<!-- Setting Modal -->
+	<div id="myModalexample" class="modal">
+	  <header class="bar bar-nav">
+	    <a class="icon icon-close pull-right" href="#myModalexample"></a>
+	    <h1 class="title">Setting</h1>
+	  </header>
+
+	  <div class="content">
+        <form class="input-group">
+	        <select ng-model="earth" ng-options="pattern.name for pattern in patterns"/>
+	        <input type="text" ng-model="tickTime">
+	    </form>
+	  </div>
+
+	</div>
+
+
+    <script src="js/angular.min.js" type="text/javascript" charset="utf-8"></script>
+  	<script src="js/gameoflife.js" type="text/javascript" charset="utf-8"></script>
+   	<script src="js/patterns.js" type="text/javascript" charset="utf-8"></script> 
+
+  </body>
+</html>
+
+
+
