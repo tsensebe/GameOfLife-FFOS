@@ -1,22 +1,10 @@
-var LIVE = 1;
-var DEAD = 0;
+angular.module('golService').service('engine',[function(){
 
-
-
-
-
-
-
-
-
-angular.module('golService').service('engine', [function () {
-    
-
-    this.isAlive = function(dot) {
-        return dot == LIVE;
+    function isAlive(dot) {
+        return dot == 1;
     };
 
-    this.initNewEarth = function(earth) {
+    function initNewEarth(earth) {
         var newEarth = new Array();
         for(var i=0;i < earth.length; i++){
             newEarth[i] = new Array();
@@ -26,21 +14,21 @@ angular.module('golService').service('engine', [function () {
         return newEarth;
     };
 
-    this.nextNeighbor= function (earth,n,xOrY) {
+    function nextNeighbor(earth,n,xOrY) {
         if(xOrY == "x") 
             return n==earth.length-1 ? 0 : n+1;
         else
             return n==earth[0].length-1 ? 0 : n+1;
     };
 
-    this.prevNeighbor = function(eprevNeighborarth,n,xOrY) {
+    function prevNeighbor(earth,n,xOrY) {
         if(xOrY == "x") 
             return n==0 ? earth.length-1 : n-1;
         else
             return n==0 ? earth[0].length-1 : n-1;
     };
 
-    this.nbNeighbour = function(earth,x,y){
+    function nbNeighbour(earth,x,y){
         var result = 0;
         if (isAlive(earth[prevNeighbor(earth,x, "x")][prevNeighbor(earth,y, "y")]))
             result += 1;
@@ -79,10 +67,4 @@ angular.module('golService').service('engine', [function () {
         return futureEarth;
     };
 
-
-
-
-
-}])
-
-
+}]);
