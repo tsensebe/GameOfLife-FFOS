@@ -80,19 +80,33 @@ function tick(earth) {
 
 
 function drawn(earth) {
-    var width = window.innerWidth;
-    var height = 420;
+ //    var width = window.innerWidth;
+ //    var height = 420;
 
-	var ctx=document.getElementById("myCanvas").getContext("2d");
-	ctx.canvas.width  = width
-    ctx.canvas.height = height;
-	ctx.clearRect (0, 0, window.innerWidth, 420);
+	// var ctx=document.getElementById("myCanvas").getContext("2d");
+	// ctx.canvas.width  = width
+ //    ctx.canvas.height = height;
+	// ctx.clearRect (0, 0, window.innerWidth, 420);
 
+    var scaleX = 320 / window.innerWidth;
+    var width = 320*scaleX;
+    
 
-    for (var i=0;i<40;i++) {
+    var scaleY = 480 / window.innerHeight;
+    var height = 480*scaleY-100;
+
+    var canvas = document.getElementById("myCanvas");
+    canvas.width = width;
+    canvas.height = height;
+    var ctx = canvas.getContext("2d");
+
+    var x = width / 32;
+    var y = height / 38;
+
+    for (var i=0;i<38;i++) {
         for (var j=0;j<32;j++) {
             ctx.fillStyle="#EEEEEE";
-            ctx.fillRect(j*10,i*10,9,9);
+            ctx.fillRect(j*x,i*y,x-1,y-1);
         }
     }
 
@@ -100,7 +114,7 @@ function drawn(earth) {
 		for (var j=0;j<earth[i].length;j++) {
 			if(isAlive(earth[i][j])) {
                 ctx.fillStyle="#FF0000";
-				ctx.fillRect(j*10,i*10,9,9);
+				ctx.fillRect(j*x,i*y,x-1,y-1);
 			}
 		}
 	}
