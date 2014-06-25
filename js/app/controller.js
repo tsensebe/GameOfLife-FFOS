@@ -3,17 +3,13 @@ angular.module('myApp').controller('GolCtrl', ['$scope', 'display', 'engine', fu
 
     $scope.patterns = patterns.patterns;
     $scope.tickTime = 200;
-    $scope.earth = {"name":"blinker", "pattern":[["0","0","0","0","0"],
-                                                 ["0","0","1","0","0"],
-                                                 ["0","0","1","0","0"],
-                                                 ["0","0","1","0","0"],
-                                                 ["0","0","0","0","0"]]};
-    display.drawn($scope.earth.pattern);
-    
+    $scope.earth = {"name":"blinker", "population":{"x16y17":{x:16,y:17},"x16y18":{x:16,y:18},"x16y19":{x:16,y:19}}};
+    display.drawn($scope.earth.population);
 
+    
     function tickAndDrawn() {
-        $scope.earth.pattern = engine.tick($scope.earth.pattern);
-        display.drawn($scope.earth.pattern);
+        $scope.earth.population = engine.tick($scope.earth.population);
+        display.drawn($scope.earth.population);
     };
     
     runLife = function() {

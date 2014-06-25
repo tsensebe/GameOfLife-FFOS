@@ -1,70 +1,73 @@
 angular.module('golService').service('engine',[function(){
 
-    function isAlive(dot) {
-        return dot == 1;
+    var maxX = 31;
+    var maxY = 37;
+
+    function createDot(x,y) {
+        return {"x":x,"y":y};
+    }
+
+    function dotKey(x,y) {
+        return "x" + x + "y" + y;
+    }
+    
+    function next(max,xOrY) {
+        return xOrY == max ? 0 : xOrY+1;
     };
 
-    function initNewEarth(earth) {
-        var newEarth = new Array();
-        for(var i=0;i < earth.length; i++){
-            newEarth[i] = new Array();
-            for(var j=0;j < earth[i].length; j++)
-                newEarth[i][j] = earth[i][j];
-        }
-        return newEarth;
+    function prev(max,xOrY) {
+        return xOrY == 0 ? max : xOrY-1;
     };
+    
+    function exist(x, y, population) {
+        return (dotKey(x,y) in population);
+    }
+    
+    function getNeighbors(person) {
+        var neighbors = new Object();
+        neighbors[dotKey(prev(maxX, person.x), prev(maxY, person.y))] = createDot(prev(maxX, person.x), prev(maxY, person.y));
+        neighbors[dotKey(prev(maxX, person.x), person.y)]             = createDot(prev(maxX, person.x), person.y);
+        neighbors[dotKey(prev(maxX, person.x), next(maxY, person.y))] = createDot(prev(maxX, person.x), next(maxY, person.y));
+        neighbors[dotKey(person.x, prev(maxY, person.y))]             = createDot(person.x, prev(maxY, person.y));
+        neighbors[dotKey(person.x, next(maxY, person.y))]             = createDot(person.x, next(maxY, person.y));
+        neighbors[dotKey(next(maxX, person.x), prev(maxY, person.y))] = createDot(next(maxX, person.x), prev(maxY, person.y));
+        neighbors[dotKey(next(maxX, person.x), person.y)]             = createDot(next(maxX, person.x), person.y);
+        neighbors[dotKey(next(maxX, person.x), next(maxY, person.y))] = createDot(next(maxX, person.x), next(maxY, person.y));
+        return neighbors;
+    }
+    
+    this.tick = function(population) {
+        var newPopulation = new Object();
+        var candidates = new Object();
+        
+        angular.forEach(population, function(person) {
+            var nbAliveNeighbor = 0;
+            var neighbors = getNeighbors(person);
+            angular.forEach(neighbors, function(neighbor){
+                if(exist(neighbor.x, neighbor.y, population)) 
+                    nbAliveNeighbor++;
+                else 
+                    candidates[dotKey(neighbor.x, neighbor.y)] = neighbor;
+            });
+            
 
-    function nextNeighbor(earth,n,xOrY) {
-        if(xOrY == "x") 
-            return n==earth.length-1 ? 0 : n+1;
-        else
-            return n==earth[0].length-1 ? 0 : n+1;
-    };
-
-    function prevNeighbor(earth,n,xOrY) {
-        if(xOrY == "x") 
-            return n==0 ? earth.length-1 : n-1;
-        else
-            return n==0 ? earth[0].length-1 : n-1;
-    };
-
-    function nbNeighbour(earth,x,y){
-        var result = 0;
-        if (isAlive(earth[prevNeighbor(earth,x, "x")][prevNeighbor(earth,y, "y")]))
-            result += 1;
-        if (isAlive(earth[prevNeighbor(earth,x, "x")][y]))
-            result += 1;
-        if (isAlive(earth[prevNeighbor(earth,x, "x")][nextNeighbor(earth,y, "y")]))
-            result += 1;
-        if (isAlive(earth[x][prevNeighbor(earth,y, "y")]))
-            result += 1;
-        if (isAlive(earth[x][nextNeighbor(earth,y, "y")]))
-            result += 1;
-        if (isAlive(earth[nextNeighbor(earth,x, "x")][prevNeighbor(earth,y, "y")]))
-            result += 1;
-        if (isAlive(earth[nextNeighbor(earth,x, "x")][y]))
-            result += 1;
-        if (isAlive(earth[nextNeighbor(earth,x, "x")][nextNeighbor(earth,y, "y")]))
-            result += 1;
-        return result;
-    };
-
-    this.tick = function(earth) {
-        var futureEarth = initNewEarth(earth);
-        for (var i = 0; i < earth.length; i++) {
-            for (var j = 0; j < earth[0].length; j++) {
-                var neighbour = nbNeighbour(earth,i,j);
-                if(isAlive(earth[i][j])) {
-                    if(neighbour != 2 && neighbour != 3) 
-                        futureEarth[i][j] = 0;
-                }  
-                else {
-                     if(neighbour == 3) 
-                        futureEarth[i][j] = 1;
-                }
-            }
-        }
-        return futureEarth;
-    };
+            if(nbAliveNeighbor == 2 || nbAliveNeighbor == 3)
+                newPopulation[dotKey(person.x,person.y)] = person;
+        });
+        
+        angular.forEach(candidates, function(person) {
+            var nbAliveNeighbor = 0;
+            var neighbors = getNeighbors(person);
+            angular.forEach(neighbors, function(neighbor){
+                if(exist(neighbor.x, neighbor.y, population)) 
+                    nbAliveNeighbor++;
+            });
+            
+            if(nbAliveNeighbor == 3)
+                newPopulation[dotKey(person.x,person.y)] = person;
+        });
+        return newPopulation;
+    }
+    
 
 }]);
