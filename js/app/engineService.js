@@ -1,7 +1,10 @@
 angular.module('golService').service('engine',[function(){
 
-    var maxX = 31;
-    var maxY = 37;
+    var X_SIZE = 32;
+    var Y_SIZE = 38;
+
+    var maxX = X_SIZE-1;
+    var maxY = Y_SIZE-1;
 
     function createDot(x,y) {
         return {"x":x,"y":y};

@@ -6,7 +6,6 @@ angular.module('myApp').controller('GolCtrl', ['$scope', 'display', 'engine', fu
     $scope.earth = {"name":"blinker", "population":{"x16y17":{x:16,y:17},"x16y18":{x:16,y:18},"x16y19":{x:16,y:19}}};
     display.drawn($scope.earth.population);
 
-    
     function tickAndDrawn() {
         $scope.earth.population = engine.tick($scope.earth.population);
         display.drawn($scope.earth.population);
